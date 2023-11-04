@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>即将开始</title>
+</head>
+<body>
+    <h1>即将开始</h1>
+    <table border="1" cellpadding="5">
+        <tr>
+            <th>比赛</th>
+            <th>正方</th>
+            <th>反方</th>
+            <th>是否开始</th>
+        </tr>
+        {{range .}}
+            <tr>
+                <td>{{.Name}}</td>
+                <td>{{.Positive}}</td>
+                <td>{{.Negative}}</td>
+                <td><button class="start-btn" match-id="{{.Id}}">开始</button></td>
+            </tr>
+        {{end}}
+    </table>
+    <script>
+            var buttons = document.getElementsByClassName("start-btn");
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].addEventListener("click", function() {
+                    var id = this.getAttribute("match-id");
+                    window.location.href = "/start?id=" + encodeURIComponent(id);
+                });
+            }
+        </script>
+</body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Buttons Example</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    button {
+      font-size: 1.2rem;
+      padding: 10px 20px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <button id="leaderboard-btn">排行榜</button>
+  <button id="create-match-btn">创建比赛</button>
+  <button id="wait-match-btn">即将开始</button>
+  <button id="history-match-btn">历史比赛</button>
+  <button id="test">测试</button>
+</div>
+<script>
+  document.getElementById("leaderboard-btn").addEventListener("click", function() {
+    window.location.href = "leaderboard.html"; // 跳转到排行榜页面
+  });
+  document.getElementById("create-match-btn").addEventListener("click", function() {
+    window.location.href = "create-match.html"; // 跳转到创建比赛页面
+  });
+  document.getElementById("wait-match-btn").addEventListener("click", function() {
+    window.location.href = "/wait-match";
+  });
+  document.getElementById("history-match-btn").addEventListener("click", function() {
+    window.location.href = "history-match.html"; // 跳转到创建比赛页面
+  });
+  document.getElementById("test").addEventListener("click", function() {
+    window.location.href = "test"; // 跳转到创建比赛页面
+  });
+</script>
+</body>
+</html>

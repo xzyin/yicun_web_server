@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Debate Timer</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            background: linear-gradient(to bottom right, black 50%, white 50%);
+            min-height: 100vh;
+            margin: 0;
+        }
+        h1 {
+            margin-bottom: 120px;
+        }
+        .debate-container {
+            display: flex;
+            position: absolute;
+            top: 40%; /* Position the div 50% from the top of the container */
+            left: 50%; /* Position the div 50% from the left of the container */
+            transform: translate(-50%, -50%); /* Center the div within the container */
+        }
+        .match {
+            font-size: 40px;
+            align-items: center;
+            color: white;
+        }
+        .team {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0 400px; /* Add margin to the left and right of the team container */
+        }
+        .timer-a {
+            margin-top: 20px;
+            background-color: white; /* Set the background color to white */
+            color: black; /* Set the text color to black */
+            width: 323px; /* Set the width to 20px */
+            height: 200px; /* Set the height to 20px */
+            border-radius: 10px; /* Set the border radius to create rounded corners */
+            display: flex; /* Add display flex to center the content */
+            justify-content: center;
+            align-items: center;
+            font-size: 100px;
+        }
+
+        .timer-b {
+            margin-top: 20px;
+            background-color: black; /* Set the background color to white */
+            color: white; /* Set the text color to black */
+            width: 323px; /* Set the width to 20px */
+            height: 200px; /* Set the height to 20px */
+            border-radius: 10px; /* Set the border radius to create rounded corners */
+            display: flex; /* Add display flex to center the content */
+            justify-content: center;
+            align-items: center;
+            font-size: 100px;
+        }
+
+        .h1-container {
+            position: absolute;
+            top: 20%; /* Position the div 50% from the top of the container */
+            left: 50%; /* Position the div 50% from the left of the container */
+            transform: translate(-50%, -50%); /* Center the div within the container */
+        }
+
+        .positive {
+            font-size: 40px;
+            color: white;
+        }
+
+        .negative {
+            font-size:40px;
+            color: black;
+
+        }
+
+        .negative-btn {
+            background-color: black;
+            color: white;
+            margin-top: 10px;
+            width: 81px;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+        .positive-btn {
+            background-color: white;
+            color: black;
+            margin-top: 10px;
+            width: 81px;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+
+    </style>
+</head>
+<body>
+<div class ="h1-container"><h1 class="match">{{.Name}}</h1></div>
+
+<div class="debate-container">
+    <div class="team">
+        <h2 class="positive">{{.Positive}}</h2>
+        <div class="timer-a" id="timer-a">04:00</div>
+        <button id="start-pause-timer-a" class="positive-btn">开始</button>
+    </div>
+    <div class="team">
+        <h2 class="negative">{{.Negative}}</h2>
+        <div class="timer-b" id="timer-b">04:00</div>
+        <button id="start-pause-timer-b" class="negative-btn">开始</button>
+    </div>
+</div>
+
+<script>
+    var timerA = document.getElementById("timer-a");
+    var timerB = document.getElementById("timer-b");
+
+    function createTimer(duration, display) {
+        var start,
+            diff,
+            minutes,
+            seconds,
+            timerInterval,
+            allCost = 0;
+        var audio = new Audio("audio.wav");
+
+        function timer() {
+            diff = duration - (((Date.now() - start + allCost) / 1000) | 0);
+            minutes = (diff / 60) | 0;
+            seconds = (diff % 60) | 0;
+
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            display.textContent = minutes + ":" + seconds;
+
+            if (diff === 30) {
+                //audio.play()
+            }
+
+
+            if (diff <= 0) {
+                start = Date.now() + 1000;
+            }
+        }
+
+        return {
+            start: function() {
+                start = Date.now();
+                timer();
+                timerInterval = setInterval(timer, 0);
+            },
+            pause: function() {
+                allCost = Date.now() - start + allCost;
+                clearInterval(timerInterval);
+            }
+        };
+    }
+
+    function setupStartPauseButton(button, timerDisplay) {
+        var timer = createTimer(31, timerDisplay);
+        var isPaused = true;
+
+        button.addEventListener("click", function() {
+            if (isPaused) {
+                button.textContent = "暂停";
+                timer.start();
+
+            } else {
+                button.textContent = "开始";
+                timer.pause();
+            }
+            isPaused = !isPaused;
+        });
+    }
+
+    setupStartPauseButton(document.getElementById("start-pause-timer-a"), timerA);
+    setupStartPauseButton(document.getElementById("start-pause-timer-b"), timerB);
+</script>
+</body>
+</html>

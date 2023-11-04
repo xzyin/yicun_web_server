@@ -98,6 +98,15 @@
             border-radius: 10px;
             font-size: 20px;
         }
+        .timer-notice{
+            background-color: gray;
+            color: black;
+            margin-top: 10px;
+            width: 81px;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
 
     </style>
 </head>
@@ -128,25 +137,38 @@
             seconds,
             timerInterval,
             allCost = 0;
-        var audio = new Audio("audio.wav");
+        var audio30 = new Audio("http://localhost:9090/audio/30s.wav");
+        var audio15 = new Audio("http://localhost:9090/audio/15s.wav")
 
         function timer() {
+
             diff = duration - (((Date.now() - start + allCost) / 1000) | 0);
             minutes = (diff / 60) | 0;
             seconds = (diff % 60) | 0;
 
-            minutes = minutes < 10 ? "0" + minutes : minutes;
-            seconds = seconds < 10 ? "0" + seconds : seconds;
+            if (minutes < 0) {
+                minutes = minutes < 0 ? "00" : minutes
+            } else {
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+            }
+            if (seconds < 0) {
+                seconds = seconds < 0 ? "00" : seconds;
+            } else {
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+            }
 
             display.textContent = minutes + ":" + seconds;
 
             if (diff === 30) {
-                //audio.play()
+                audio30.play()
             }
 
+            if (diff === 15) {
+                audio15.play()
+            }
 
             if (diff <= 0) {
-                start = Date.now() + 1000;
+                clearInterval(timerInterval);
             }
         }
 
@@ -164,7 +186,7 @@
     }
 
     function setupStartPauseButton(button, timerDisplay) {
-        var timer = createTimer(31, timerDisplay);
+        var timer = createTimer(40, timerDisplay);
         var isPaused = true;
 
         button.addEventListener("click", function() {

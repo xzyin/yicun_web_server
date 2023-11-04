@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>即将开始</title>
+    <style type="text/css">
+        .timer-notice{
+            background-color: white;
+            color: black;
+            margin-top: 10px;
+            width: 81px;
+            height: 50px;
+            border-radius: 10px;
+            font-size: 20px;
+        }
+    </style>
 </head>
 <body>
+
     <h1>即将开始</h1>
     <table border="1" cellpadding="5">
         <tr>
@@ -13,6 +25,8 @@
             <th>正方</th>
             <th>反方</th>
             <th>是否开始</th>
+            <th>30s 提示音</th>
+            <th>15s 提示音</th>
         </tr>
         {{range .}}
             <tr>
@@ -20,6 +34,8 @@
                 <td>{{.Positive}}</td>
                 <td>{{.Negative}}</td>
                 <td><button class="start-btn" match-id="{{.Id}}">开始</button></td>
+                <td><button id="set-30s-timer" class="timer-notice">播放</button></td>
+                <td><button id="set-15s-timer" class="timer-notice">播放</button></td>
             </tr>
         {{end}}
     </table>
@@ -31,6 +47,26 @@
                     window.location.href = "/start?id=" + encodeURIComponent(id);
                 });
             }
-        </script>
+            var playButton30 = document.getElementById("set-30s-timer");
+            var audio30 = new Audio("http://localhost:9090/audio/30s.wav");
+            playButton30.addEventListener("click", function() {
+                audio30.play().then(function() {
+                    setTimeout(function() {
+                        audio30.play();
+                    }, audio30.duration * 1000);
+                });
+            });
+
+            var playButton15 = document.getElementById("set-15s-timer");
+            var audio15 = new Audio("http://localhost:9090/audio/15s.wav");
+            playButton15.addEventListener("click", function() {
+                audio15.play().then(function() {
+                    setTimeout(function() {
+                        audio15.play();
+                    }, audio15.duration * 1000);
+                });
+            });
+
+    </script>
 </body>
 </html>

@@ -105,6 +105,7 @@ func goToTest(w http.ResponseWriter, r *http.Request) {
 	}
 }
 func main() {
+	http.Handle("/audio/", http.StripPrefix("/audio/", http.FileServer(http.Dir("audio"))))
 	http.HandleFunc("/test", goToTest)
 	http.HandleFunc("/start", startMatch)
 	http.HandleFunc("/create-match", createMatch)

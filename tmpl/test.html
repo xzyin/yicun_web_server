@@ -9,13 +9,10 @@
 
 <h1>Click the button to play the beep sound twice:</h1>
 <button id="play-button">Play Beep</button>
-<input type="file" id="file" onchange="onInputFileChange()">
-<audio id="video_id"  width="520" height="360" controls autoplay loop>你的浏览器不能支持HTML5视频></audio>
 <script>
 
     var playButton = document.getElementById("play-button");
-    var audio = new Audio("/static/news.mp3");
-
+    var audio = new Audio("http://localhost:9090/static/news.mp3");
     playButton.addEventListener("click", function() {
         audio.play().then(function() {
             setTimeout(function() {
